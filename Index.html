@@ -15,9 +15,9 @@
             --bg-card: #373b47;
             --bg-section: #313440;
             --accent: #ff7d00;
-            --text-main: #e8e9eb;  /* Более яркий основной текст */
-            --text-muted: #a3a8b8;  /* Яркий серо-голубой вместо тусклого */
-            --text-secondary: #c4c8d4; /* Дополнительный яркий цвет */
+            --text-main: #e8e9eb;
+            --text-muted: #a3a8b8;
+            --text-secondary: #c4c8d4;
             --border: #444954;
         }
         
@@ -25,7 +25,8 @@
             background-color: var(--bg-dark);
             color: var(--text-main);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6; /* Улучшенная читаемость */
+            line-height: 1.6;
+            padding-top: 80px;
         }
         
         .bg-light {
@@ -261,7 +262,7 @@
         }
         
         .lead {
-            color: var(--text-secondary); /* Более яркий цвет для lead текста */
+            color: var(--text-secondary);
             font-weight: 300;
         }
         
@@ -275,7 +276,6 @@
             letter-spacing: -0.5px;
         }
         
-        /* Анимация заголовков */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -291,7 +291,6 @@
             animation: fadeInUp 0.6s ease forwards;
         }
         
-        /* Градиентная полоса под заголовками */
         .title-underline {
             height: 4px;
             width: 80px;
@@ -300,7 +299,6 @@
             border-radius: 2px;
         }
         
-        /* Кастомный скроллбар */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -314,7 +312,6 @@
             border-radius: 4px;
         }
         
-        /* Улучшенные стили для текста в карточках */
         .card-text {
             color: var(--text-secondary) !important;
         }
@@ -323,9 +320,32 @@
             color: var(--text-muted) !important;
         }
         
-        /* Контактная информация */
         .contact-info p {
             color: var(--text-secondary);
+        }
+        
+        /* Стили для Google карты */
+        .map-container {
+            height: 250px;
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            margin-top: 15px;
+        }
+        
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* Адаптивные стили для подвала */
+        @media (max-width: 768px) {
+            .map-container {
+                height: 200px;
+                margin-top: 20px;
+            }
         }
     </style>
 </head>
@@ -504,6 +524,7 @@
             </div>
         </div>
     </section>
+
     <!-- Контакты -->
     <section id="contact" class="py-5 bg-white">
         <div class="container py-5">
@@ -552,14 +573,36 @@
         </div>
     </section>
 
-    <!-- Подвал -->
+    <!-- Подвал с картой -->
     <footer class="bg-dark text-white py-4">
         <div class="container">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <h5><i class="bi bi-bicycle"></i> MotoWorld</h5>
-                    <p class="text-muted">© 2025 </p>
+                    <p class="text-muted">Лучшие мотоциклы со всего мира в одном месте.</p>
                 </div>
+                <div class="col-md-4">
+                    <h5>Контакты</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="bi bi-geo-alt me-2"></i> г. Брянск</li>
+                        <li><i class="bi bi-telephone me-2"></i> +7 (915) 807 20 31</li>
+                        <li><i class="bi bi-envelope me-2"></i> stepaivanim@gmail.com</li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Мы на карте</h5>
+                    <div class="map-container">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2380.1234567890123!2d34.12345678901234!3d53.12345678901234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTPCsDA3JzI0LjQiTiAzNMKwMDcnMjQuNCJF!5e0!3m2!1sru!2sru!4v1234567890123!5m2!1sru!2sru" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4" style="border-color: var(--border);">
+            <div class="text-center">
+                <p class="mb-0 text-muted">&copy; 2025 MotoWorld. Все права защищены.</p>
             </div>
         </div>
     </footer>

@@ -88,42 +88,66 @@
             color: var(--text-secondary);
         }
         
+        /* Обновленные стили галереи */
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
         .gallery-item {
             position: relative;
-            display: block;
             overflow: hidden;
             border-radius: 8px;
+            aspect-ratio: 16/9;
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: scale(1.02);
         }
         
         .gallery-item img {
-            transition: transform 0.3s;
-        }
-        
-        .gallery-item:hover img {
-            transform: scale(1.05);
-        }
-        
-        .gallery-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 125, 0, 0.5);
+            object-fit: cover;
+            cursor: pointer;
+        }
+        
+        /* Стили для полноэкранного просмотра */
+        .modal-fullscreen .modal-dialog {
+            max-width: 100%;
+            margin: 0;
+            height: 100vh;
+        }
+        
+        .modal-fullscreen .modal-content {
+            background: transparent;
+            border: none;
+            height: 100%;
+        }
+        
+        .modal-fullscreen .modal-header {
+            border: none;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1;
+        }
+        
+        .modal-fullscreen .modal-body {
             display: flex;
             align-items: center;
             justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s;
+            height: 100%;
+            padding: 0;
         }
         
-        .gallery-item:hover .gallery-overlay {
-            opacity: 1;
-        }
-        
-        .gallery-overlay i {
-            color: white;
-            font-size: 2rem;
+        .modal-fullscreen img {
+            max-height: 90vh;
+            max-width: 90vw;
+            object-fit: contain;
         }
         
         .btn-outline-primary {
@@ -153,11 +177,6 @@
         .navbar-dark {
             background-color: rgba(42, 45, 52, 0.9) !important;
             backdrop-filter: blur(10px);
-        }
-        
-        .modal-content {
-            background-color: var(--bg-card);
-            color: var(--text-main);
         }
         
         .btn-close {
@@ -201,8 +220,8 @@
         }
     </style>
 </head>
-
-    <!-- Навигация (остается без изменений) -->
+<body>
+    <!-- Навигация -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
             <a class="navbar-brand" href="../../index.html">
@@ -274,7 +293,7 @@
                             <i class="bi bi-speedometer2"></i>
                         </div>
                         <h4>Макс. скорость</h4>
-                        <p>180 км/ч</p> <!-- Убрал text-muted для более яркого отображения -->
+                        <p>180 км/ч</p>
                     </div>
                     <div class="col-md-4 text-center spec-item">
                         <div class="spec-icon">
@@ -340,33 +359,18 @@
             </div>
         </section>
 
-        <!-- Галерея модели -->
+        <!-- Обновленная галерея модели -->
         <section class="mb-5">
             <h2 class="fw-bold text-center mb-4 section-title">Галерея Harley-Davidson</h2>
-            <div class="row g-3">
-                <div class="col-md-4">
-                    <a href="#!" class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal">
-                        <img src="2/6.png" class="img-fluid rounded" alt="Harley 1">
-                        <div class="gallery-overlay">
-                            <i class="bi bi-zoom-in"></i>
-                        </div>
-                    </a>
+            <div class="gallery-container">
+                <div class="gallery-item">
+                    <img src="2/6.png" alt="Harley 1" data-bs-toggle="modal" data-bs-target="#galleryModal1">
                 </div>
-                <div class="col-md-4">
-                    <a href="#!" class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal">
-                        <img src="2/3.png" class="img-fluid rounded" alt="Harley 2">
-                        <div class="gallery-overlay">
-                            <i class="bi bi-zoom-in"></i>
-                        </div>
-                    </a>
+                <div class="gallery-item">
+                    <img src="2/3.png" alt="Harley 2" data-bs-toggle="modal" data-bs-target="#galleryModal2">
                 </div>
-                <div class="col-md-4">
-                    <a href="#!" class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal">
-                        <img src="2/4.png" class="img-fluid rounded" alt="Harley 3">
-                        <div class="gallery-overlay">
-                            <i class="bi bi-zoom-in"></i>
-                        </div>
-                    </a>
+                <div class="gallery-item">
+                    <img src="2/4.png" alt="Harley 3" data-bs-toggle="modal" data-bs-target="#galleryModal3">
                 </div>
             </div>
         </section>
@@ -420,8 +424,8 @@
                 <div class="col-md-3">
                     <h5>Контакты</h5>
                     <ul class="list-unstyled">
-                        <li><i class="bi bi-geo-alt"></i> г Брянск. </li>
-                        <li><i class="bi bi-telephone"></i> +7 (915) 807 20 31 </li>
+                        <li><i class="bi bi-geo-alt"></i> г. Брянск</li>
+                        <li><i class="bi bi-telephone"></i> +7 (915) 807 20 31</li>
                         <li><i class="bi bi-envelope"></i> stepaivanim@gmail.com</li>
                     </ul>
                 </div>
@@ -433,15 +437,41 @@
         </div>
     </footer>
 
-    <!-- Модальное окно галереи -->
-    <div class="modal fade" id="galleryModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+    <!-- Модальные окна для галереи -->
+    <div class="modal fade modal-fullscreen" id="galleryModal1" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header border-0">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-header">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body text-center">
-                    <img src="" class="img-fluid rounded" id="galleryImage" alt="Gallery Image">
+                <div class="modal-body">
+                    <img src="2/6.png" class="img-fluid" alt="Harley 1 Fullscreen">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade modal-fullscreen" id="galleryModal2" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="2/3.png" class="img-fluid" alt="Harley 2 Fullscreen">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade modal-fullscreen" id="galleryModal3" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="2/4.png" class="img-fluid" alt="Harley 3 Fullscreen">
                 </div>
             </div>
         </div>
@@ -450,14 +480,6 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Инициализация галереи
-        document.querySelectorAll('.gallery-item').forEach(item => {
-            item.addEventListener('click', event => {
-                const imgSrc = event.currentTarget.querySelector('img').src;
-                document.getElementById('galleryImage').src = imgSrc;
-            });
-        });
-        
         // Анимация при загрузке
         document.addEventListener('DOMContentLoaded', function() {
             const animateOnScroll = () => {
@@ -482,6 +504,15 @@
             
             setTimeout(animateOnScroll, 300);
             window.addEventListener('scroll', animateOnScroll);
+            
+            // Закрытие модальных окон по ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    document.querySelectorAll('.modal').forEach(modal => {
+                        bootstrap.Modal.getInstance(modal).hide();
+                    });
+                }
+            });
         });
     </script>
 </body>

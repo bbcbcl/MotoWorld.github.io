@@ -88,42 +88,70 @@
             color: var(--text-secondary);
         }
         
+        /* Стили для галереи */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
         .gallery-item {
             position: relative;
-            display: block;
             overflow: hidden;
             border-radius: 8px;
+            aspect-ratio: 16/9;
+            transition: transform 0.3s ease;
+            cursor: pointer;
         }
         
         .gallery-item img {
-            transition: transform 0.3s;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
         }
         
         .gallery-item:hover img {
             transform: scale(1.05);
         }
         
-        .gallery-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
+        /* Стили для полноэкранного просмотра */
+        .modal-fullscreen .modal-dialog {
+            max-width: 100%;
+            margin: 0;
+            height: 100vh;
+        }
+        
+        .modal-fullscreen .modal-content {
+            background: transparent;
+            border: none;
             height: 100%;
-            background: rgba(255, 125, 0, 0.5);
+        }
+        
+        .modal-fullscreen .modal-header {
+            border: none;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1;
+        }
+        
+        .modal-fullscreen .modal-body {
             display: flex;
             align-items: center;
             justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s;
+            height: 100%;
+            padding: 0;
         }
         
-        .gallery-item:hover .gallery-overlay {
-            opacity: 1;
-        }
-        
-        .gallery-overlay i {
-            color: white;
-            font-size: 2rem;
+        .modal-fullscreen img {
+            max-height: 90vh;
+            max-width: 90vw;
+            object-fit: contain;
         }
         
         .btn-outline-primary {
@@ -153,11 +181,6 @@
         .navbar-dark {
             background-color: rgba(42, 45, 52, 0.9) !important;
             backdrop-filter: blur(10px);
-        }
-        
-        .modal-content {
-            background-color: var(--bg-card);
-            color: var(--text-main);
         }
         
         .btn-close {
@@ -198,6 +221,13 @@
         
         footer p, footer li {
             color: var(--text-muted) !important;
+        }
+        
+        /* Адаптивные стили */
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -343,30 +373,15 @@
         <!-- Галерея модели -->
         <section class="mb-5">
             <h2 class="fw-bold text-center mb-4 section-title">Галерея Kawasaki Ninja</h2>
-            <div class="row g-3">
-                <div class="col-md-4">
-                    <a href="#!" class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal">
-                        <img src="6/25.png" class="img-fluid rounded" alt="Kawasaki Ninja 1">
-                        <div class="gallery-overlay">
-                            <i class="bi bi-zoom-in"></i>
-                        </div>
-                    </a>
+            <div class="gallery-grid">
+                <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal1">
+                    <img src="6/25.png" alt="Kawasaki Ninja 1">
                 </div>
-                <div class="col-md-4">
-                    <a href="#!" class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal">
-                        <img src="6/26.png" class="img-fluid rounded" alt="Kawasaki Ninja 2">
-                        <div class="gallery-overlay">
-                            <i class="bi bi-zoom-in"></i>
-                        </div>
-                    </a>
+                <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal2">
+                    <img src="6/26.png" alt="Kawasaki Ninja 2">
                 </div>
-                <div class="col-md-4">
-                    <a href="#!" class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal">
-                        <img src="6/27.png" class="img-fluid rounded" alt="Kawasaki Ninja 3">
-                        <div class="gallery-overlay">
-                            <i class="bi bi-zoom-in"></i>
-                        </div>
-                    </a>
+                <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal3">
+                    <img src="6/27.png" alt="Kawasaki Ninja 3">
                 </div>
             </div>
         </section>
@@ -417,34 +432,57 @@
                     <h5><i class="bi bi-bicycle"></i> MotoWorld</h5>
                     <p class="text-muted">Лучшие мотоциклы со всего мира в одном месте.</p>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <h5>Контакты</h5>
                     <ul class="list-unstyled">
-                        <li><i class="bi bi-geo-alt"></i> г Брянск. </li>
-                        <li><i class="bi bi-telephone"></i> +7 (915) 807 20 31 </li>
-                        <li><i class="bi bi-envelope"></i> stepaivanim@gmail.com</li>
+                        <li><i class="bi bi-geo-alt me-2"></i> г. Брянск</li>
+                        <li><i class="bi bi-telephone me-2"></i> +7 (915) 807 20 31</li>
+                        <li><i class="bi bi-envelope me-2"></i> stepaivanim@gmail.com</li>
                     </ul>
-                </div>
-            </div>
                 </div>
             </div>
             <hr class="my-4" style="border-color: var(--border);">
             <div class="text-center">
-                <p class="mb-0 text-muted">&copy; 2025 MotoWorld.</p>
+                <p class="mb-0 text-muted">&copy; 2025 MotoWorld. Все права защищены.</p>
             </div>
         </div>
     </footer>
 
-
-    <!-- Модальное окно галереи -->
-    <div class="modal fade" id="galleryModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+    <!-- Модальные окна для полноэкранного просмотра -->
+    <div class="modal fade modal-fullscreen" id="galleryModal1" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header border-0">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-header">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body text-center">
-                    <img src="" class="img-fluid rounded" id="galleryImage" alt="Gallery Image">
+                <div class="modal-body">
+                    <img src="6/25.png" class="img-fluid" alt="Kawasaki Ninja Fullscreen 1">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade modal-fullscreen" id="galleryModal2" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="6/26.png" class="img-fluid" alt="Kawasaki Ninja Fullscreen 2">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade modal-fullscreen" id="galleryModal3" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img src="6/27.png" class="img-fluid" alt="Kawasaki Ninja Fullscreen 3">
                 </div>
             </div>
         </div>
@@ -454,15 +492,21 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Инициализация галереи
-        document.querySelectorAll('.gallery-item').forEach(item => {
-            item.addEventListener('click', event => {
-                const imgSrc = event.currentTarget.querySelector('img').src;
-                document.getElementById('galleryImage').src = imgSrc;
-            });
-        });
-        
-        // Анимация при загрузке
         document.addEventListener('DOMContentLoaded', function() {
+            // Закрытие модальных окон по ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    const modals = document.querySelectorAll('.modal');
+                    modals.forEach(modal => {
+                        const modalInstance = bootstrap.Modal.getInstance(modal);
+                        if (modalInstance) {
+                            modalInstance.hide();
+                        }
+                    });
+                }
+            });
+            
+            // Анимация при загрузке
             const animateOnScroll = () => {
                 const elements = document.querySelectorAll('.section-title, .creator-card, .spec-item');
                 
